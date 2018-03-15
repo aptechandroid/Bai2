@@ -1,35 +1,28 @@
 package vn.uits.bai2.model;
 
+import io.realm.RealmObject;
+
 /**
  * Copyright © 2017 BAP CO., LTD
  * Created by PHUQUY on 3/15/18.
  */
 
-public class Contact {
-    private int id;
+public class Student extends RealmObject {
+
     private String name;
     private String numberPhone;
 
-    public Contact() {
+    public Student() {
+
     }
 
-    public Contact(String name, String numberPhone) {
+    public Student(String name) {
+        this.name = name;
+    }
+
+    public Student(String name, String numberPhone) {
         this.name = name;
         this.numberPhone = numberPhone;
-    }
-
-    public Contact(int id, String name, String numberPhone) {
-        this.id = id;
-        this.name = name;
-        this.numberPhone = numberPhone;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

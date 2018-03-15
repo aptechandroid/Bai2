@@ -22,6 +22,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+import vn.uits.bai2.model.Student;
+import vn.uits.bai2.sqlite.DBController;
+
 /**
  * Copyright © 2017 BAP CO., LTD
  * Created by PHUQUY on 3/6/18.
@@ -36,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText mEdtEmail;
     private EditText mEditPassword;
 
+    private Realm mRealm;
+    private DBController mDataBase;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
         mEdtEmail = findViewById(R.id.etEmail);
         mEditPassword = findViewById(R.id.etPass);
 
+        mRealm = Realm.getDefaultInstance();
+        mDataBase = new DBController(this);
+
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mSharedPreference.edit();
 
@@ -53,16 +64,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!mEdtEmail.getText().toString().trim().equals("")
                         && !mEditPassword.getText().toString().trim().equals("")) {
-                    // commit Share Preference
-                    mEditor.putString("email", mEdtEmail.getText().toString());
-                    mEditor.putString("password", mEditPassword.getText().toString());
-                    mEditor.commit();
+                    // Realm
 
-                    // clear Edittext
-                    clear();
+                    mRealm.beginTransaction();
+                    Student student = new Student();
+                    student.setName(mEdtEmail.getText().toString().trim());
+                    student.setNumberPhone(mEditPassword.getText().toString().trim());
+                    mRealm.copyToRealm(student);
+                    mRealm.commitTransaction();
 
-                    // gone view
-                    mBtnRegister.setVisibility(View.GONE);
+                    // SQLite
+                   /* mDataBase.addContact(new Contact(mEdtEmail.getText().toString().trim(),
+                            mEditPassword.getText().toString().trim()));*/
+
+                    mEditPassword.setText("");
+                    mEdtEmail.setText("");
+
                 } else {
                     Toast.makeText(MainActivity.this, "Vui lòng nhập giá trị ", Toast.LENGTH_SHORT).show();
                 }
@@ -114,15 +131,20 @@ public class MainActivity extends AppCompatActivity {
     public void onLogin(View view) {
         Thread thread = new Thread(mMessageSender);
         thread.start();
+    }
 
-       /* if ((mEdtEmail.getText().toString().equals(mSharedPreference.getString("email", "")))
-                && (mEditPassword.getText().toString().equals(mSharedPreference.getString("password", "")))) {
-            Intent intent = new Intent(MainActivity.this, TowActivity.class);
-            startActivity(intent);
-        } else {
-            showMessage(MainActivity.this,
-                    mSharedPreference.getString("email", ""),
-                    mSharedPreference.getString("password", ""));
+    public void onGetInformation(View view) {
+        // Realm
+        mRealm.beginTransaction();
+        RealmResults<Student> realmResults = mRealm.where(Student.class).findAll();
+        for (Student student : realmResults) {
+            Log.d(TAG, "onGetInformation: " + student.getName());
+        }
+        mRealm.commitTransaction();
+
+        // SQLite
+        /*for (Contact contact : mDataBase.getAllContacts()) {
+            Log.d(TAG, "onGetInformation: " + contact.getName());
         }*/
     }
 

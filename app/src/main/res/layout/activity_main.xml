@@ -35,8 +35,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
+            android:hint="User Name"
+            android:inputType="text"
             android:singleLine="true"
             android:textColorHint="@android:color/white" />
 
@@ -53,8 +53,8 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:hint="Password"
-            android:inputType="textPassword"
+            android:hint="Number Phone"
+            android:inputType="number"
             android:singleLine="true"
             android:textColorHint="@android:color/white" />
     </android.support.design.widget.TextInputLayout>
@@ -65,11 +65,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:onClick="onLogin"
         android:gravity="bottom"
+        android:onClick="onLogin"
         android:padding="20dp"
         android:text="Login"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/mBtnRegister"
@@ -78,8 +79,20 @@
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:gravity="bottom"
-        android:onClick="register"
+        android:onClick="onAddContact"
         android:padding="20dp"
-        android:text="Register!"
+        android:text="Add Contact"
         android:textColor="@android:color/black" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:gravity="bottom"
+        android:onClick="onGetInformation"
+        android:padding="20dp"
+        android:text="GET"
+        android:textColor="@android:color/black"
+        android:visibility="visible" />
 </LinearLayout>
