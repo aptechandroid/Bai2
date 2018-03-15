@@ -6,10 +6,25 @@ package vn.uits.bai2.model;
  */
 
 public class Contact {
+    private int id;
     private String name;
     private String numberPhone;
 
     public Contact() {
+    }
+
+    public Contact(int id, String name, String numberPhone) {
+        this.id = id;
+        this.name = name;
+        this.numberPhone = numberPhone;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
